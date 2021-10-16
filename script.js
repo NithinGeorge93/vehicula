@@ -1,5 +1,7 @@
 $(document).ready(function () {
     var slideIndex = 1;
+    var vakueTrue = false;
+    var passwordValidation = false;
 
     $('.dot').click((e) => {
         var $this = $(e.currentTarget);
@@ -102,11 +104,14 @@ $(document).ready(function () {
 
         if ($("#sign-up").length) {
             if (signup.errorList.length === 0) {
-                if ($("#confirm-password").val() === $("#new-password").val()) {
+                if ($("#confirm-password").val() === $("#new-password").val() && passwordValidation === true) {
                     $("#sign-up").hide();
                     $(".procees-c").show();
+                }
+
+                if ($("#confirm-password").val() === $("#new-password").val()) {
                     $(".error-pss").hide();
-                }  else {
+                } else {
                     $(".error-pss").show();
                 }
             }
@@ -117,9 +122,11 @@ $(document).ready(function () {
         $("#message").show();
     });
 
-    $('#new-password').blur(() => {
+    if (vakueTrue === true) {
         $("#message").hide();
-    });
+
+        passwordValidation = true;
+    }
     
     $('#new-password').keyup((e) => {
         var $this = $(e.currentTarget);
@@ -128,35 +135,43 @@ $(document).ready(function () {
         if ($this.val().match(lowerCaseLetters)) {
             $("#letter").removeClass("invalid");
             $("#letter").addClass("valid");
+            vakueTrue = true;
         } else {
             $("#letter").removeClass("valid");
             $("#letter").addClass("invalid");
+            vakueTrue = false;
         }
 
         var upperCaseLetters = /[A-Z]/g;
         if ($this.val().match(upperCaseLetters)) {
             $("#capital").removeClass("invalid");
             $("#capital").addClass("valid");
+            vakueTrue = true;
         } else {
             $("#capital").removeClass("valid");
             $("#capital").addClass("invalid");
+            vakueTrue = false;
         }
 
         var numbers = /[0-9]/g;
         if ($this.val().match(numbers)) {
             $("#number").removeClass("invalid");
             $("#number").addClass("valid");
+            vakueTrue = true;
         } else {
             $("#number").removeClass("valid");
             $("#number").addClass("invalid");
+            vakueTrue = false;
         }
 
         if ($this.val().length >= 8) {
             $("#length").removeClass("invalid");
             $("#length").addClass("valid");
+            vakueTrue = true;
         } else {
             $("#length").removeClass("valid");
             $("#length").addClass("invalid");
+            vakueTrue = false;
         }
     });
 });
